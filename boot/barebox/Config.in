@@ -64,6 +64,13 @@ config BR2_TARGET_BAREBOX_CUSTOM_GIT_VERSION
 
 endif
 
+config BR2_TARGET_BAREBOX_BOOT
+	bool "Build Barebox bootloader"
+	default y
+	help
+	  Build the Barebox bootloader
+
+if BR2_TARGET_BAREBOX_BOOT
 
 choice
 	prompt "Barebox configuration"
@@ -120,5 +127,7 @@ config BR2_TARGET_BAREBOX_CUSTOM_ENV_PATH
 	  the additions needed. The output will be an image in the
 	  barebox devfs format, stored in the images directory, with
 	  the same name as the directory name given here.
+
+endif
 
 endif
