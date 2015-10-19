@@ -130,4 +130,51 @@ config BR2_TARGET_BAREBOX_CUSTOM_ENV_PATH
 
 endif
 
+config BR2_TARGET_BAREBOX_XLOAD
+	bool "Build Barebox x-loader"
+	help
+	  Build the Barebox x-loader
+
+if BR2_TARGET_BAREBOX_XLOAD
+
+choice
+	prompt "Barebox x-loader configuration"
+	default BR2_TARGET_BAREBOX_XLOAD_USE_DEFCONFIG
+
+config BR2_TARGET_BAREBOX_XLOAD_USE_DEFCONFIG
+	bool "Using a x-loader defconfig"
+
+config BR2_TARGET_BAREBOX_XLOAD_USE_CUSTOM_CONFIG
+	bool "Using a custom x-loader config file"
+
+endchoice
+
+config BR2_TARGET_BAREBOX_XLOAD_BOARD_DEFCONFIG
+	string "X-loader board defconfig"
+	depends on BR2_TARGET_BAREBOX_XLOAD_USE_DEFCONFIG
+	help
+	  Name of the board for which Barebox should be built, without
+	  the _defconfig suffix.
+
+
+config BR2_TARGET_BAREBOX_XLOAD_CUSTOM_CONFIG_FILE
+	string "X-loader configuration file path"
+	depends on BR2_TARGET_BAREBOX_XLOAD_USE_CUSTOM_CONFIG
+	help
+	  Path to the barebox configuration file
+
+config BR2_TARGET_BAREBOX_XLOAD_CONFIG_FRAGMENT_FILES
+	string "Additional x-loader configuration fragment files"
+	help
+	  A space-separated list of configuration fragment files,
+	  that will be merged to the main Barebox configuration file.
+
+config BR2_TARGET_BAREBOX_XLOAD_INSTALL_FILENAME
+	string "X-loader image filename when installed"
+	default "MLO"
+	help
+	  Name to give the image in the output/images directory.
+
+endif
+
 endif
