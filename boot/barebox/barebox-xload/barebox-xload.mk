@@ -33,6 +33,12 @@ define BAREBOX_XLOAD_BUILD_CMDS
 	$(TARGET_MAKE_ENV) $(MAKE) $(BAREBOX_XLOAD_MAKE_FLAGS) -C $(@D)
 endef
 
+ifdef BR2_TARGET_BAREBOX_XLOAD_USE_SPECIFIC_IMAGE
+define BAREBOX_XLOAD_INSTALL_IMAGES_CMDS
+	cp -L $(@D)/images/$(call qstrip,$(BR2_TARGET_BAREBOX_XLOAD_IMAGE_FILE)) \
+		$(BAREBOX_XLOAD_INSTALL_DEST)
+endef
+else
 define BAREBOX_XLOAD_INSTALL_IMAGES_CMDS
 	if test -h $(@D)/barebox-flash-image ; then \
 		cp -L $(@D)/barebox-flash-image $(BAREBOX_XLOAD_INSTALL_DEST) ; \
@@ -40,5 +46,6 @@ define BAREBOX_XLOAD_INSTALL_IMAGES_CMDS
 		cp $(@D)/barebox.bin $(BAREBOX_XLOAD_INSTALL_DEST);\
 	fi
 endef
+endif
 
 $(eval $(kconfig-package))

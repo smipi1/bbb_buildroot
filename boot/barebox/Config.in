@@ -104,6 +104,24 @@ config BR2_TARGET_BAREBOX_CONFIG_FRAGMENT_FILES
 	  A space-separated list of configuration fragment files,
 	  that will be merged to the main Barebox configuration file.
 
+choice
+	prompt "Barebox image file"
+	default BR2_TARGET_BAREBOX_USE_DEFAULT_IMAGE
+
+config BR2_TARGET_BAREBOX_USE_DEFAULT_IMAGE
+	bool "Using the default image file"
+
+config BR2_TARGET_BAREBOX_USE_SPECIFIC_IMAGE
+	bool "Using a specific image file"
+
+endchoice
+
+config BR2_TARGET_BAREBOX_IMAGE_FILE
+	string "Image file path"
+	depends on BR2_TARGET_BAREBOX_USE_SPECIFIC_IMAGE
+	help
+	  Name of the built barebox image file
+
 config BR2_TARGET_BAREBOX_BAREBOXENV
 	bool "bareboxenv tool in target"
 	help
@@ -168,6 +186,24 @@ config BR2_TARGET_BAREBOX_XLOAD_CONFIG_FRAGMENT_FILES
 	help
 	  A space-separated list of configuration fragment files,
 	  that will be merged to the main Barebox configuration file.
+
+choice
+	prompt "Barebox x-loader image file"
+	default BR2_TARGET_BAREBOX_XLOAD_USE_DEFAULT_IMAGE
+
+config BR2_TARGET_BAREBOX_XLOAD_USE_DEFAULT_IMAGE
+	bool "Using the default x-loader image file"
+
+config BR2_TARGET_BAREBOX_XLOAD_USE_SPECIFIC_IMAGE
+	bool "Using a specific x-loader image file"
+
+endchoice
+
+config BR2_TARGET_BAREBOX_XLOAD_IMAGE_FILE
+	string "X-loader image file path"
+	depends on BR2_TARGET_BAREBOX_XLOAD_USE_SPECIFIC_IMAGE
+	help
+	  Name of the built x-loader barebox image file
 
 config BR2_TARGET_BAREBOX_XLOAD_INSTALL_FILENAME
 	string "X-loader image filename when installed"
