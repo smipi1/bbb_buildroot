@@ -92,10 +92,10 @@ define BAREBOX_BUILD_CMDS
 endef
 
 define BAREBOX_INSTALL_IMAGES_CMDS
-	if test -h $(@D)/barebox-flash-image ; then \
-		cp -L $(@D)/barebox-flash-image $(BINARIES_DIR)/barebox.bin ; \
+	if test -e $(@D)/$(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE)); then \
+		cp -L $(@D)/$(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE)) $(BINARIES_DIR)/barebox.bin ; \
 	else \
-		cp $(@D)/barebox.bin $(BINARIES_DIR);\
+		cp $(@D)/images/$(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE)) $(BINARIES_DIR)/barebox.bin ; \
 	fi
 	$(BAREBOX_INSTALL_CUSTOM_ENV)
 endef
@@ -114,6 +114,9 @@ ifeq ($(BR2_TARGET_BAREBOX)$(BR_BUILDING),yy)
 # trailing _defconfig
 ifeq ($(or $(BAREBOX_KCONFIG_FILE),$(call qstrip,$(BR2_TARGET_BAREBOX_BOARD_DEFCONFIG))),)
 $(error No Barebox config. Check your BR2_TARGET_BAREBOX_BOARD_DEFCONFIG or BR2_TARGET_BAREBOX_CUSTOM_CONFIG_FILE settings)
+endif
+ifndef BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE
+$(error No barebox built image filename specified. Check your BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE setting)
 endif
 endif
 
