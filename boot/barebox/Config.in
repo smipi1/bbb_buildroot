@@ -106,6 +106,13 @@ config BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE
 
 	  Set to barebox.bin for barebox versions older than 2012.10.
 
+config BR2_TARGET_BAREBOX_OUTPUT_IMAGE_FILE
+	string "Output image filename"
+	default "barebox.bin"
+	help
+	  Name to use when copying the barebox image to the output/images
+	  directory.
+
 config BR2_TARGET_BAREBOX_BAREBOXENV
 	bool "bareboxenv tool in target"
 	help
