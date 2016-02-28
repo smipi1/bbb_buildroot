@@ -131,3 +131,5 @@ $$(eval $$(kconfig-package))
 endef
 
 $(eval $(call barebox-package,BAREBOX))
+
+include boot/barebox/barebox-2/barebox-2.mk
