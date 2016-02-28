@@ -137,5 +137,6 @@ config BR2_TARGET_BAREBOX_CUSTOM_ENV_PATH
 	  barebox devfs format, stored in the images directory, with
 	  the same name as the directory name given here.
 
+source boot/barebox/barebox-2/Config.in
 
 endif

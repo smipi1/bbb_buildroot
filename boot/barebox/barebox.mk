@@ -139,3 +139,5 @@ endef
 $(eval $(call BAREBOX_USER_FRIENDLY_ERRORS,BAREBOX))
 
 $(eval $(kconfig-package))
+
+include boot/barebox/barebox-2/barebox-2.mk

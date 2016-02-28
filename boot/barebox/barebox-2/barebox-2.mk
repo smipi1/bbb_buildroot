@@ -1,0 +1,33 @@
+################################################################################
+#
+# barebox-2
+#
+################################################################################
+
+BAREBOX_2_VERSION = $(BAREBOX_VERSION)
+BAREBOX_2_TARBALL = $(BAREBOX_TARBALL)
+BAREBOX_2_SITE = $(BAREBOX_SITE)
+BAREBOX_2_SOURCE = $(BAREBOX_SOURCE)
+BAREBOX_2_SITE_METHOD = $(BAREBOX_SITE_METHOD)
+BAREBOX_2_DEPENDENCIES = $(BAREBOX_DEPENDENCIES)
+BAREBOX_2_LICENSE = $(BAREBOX_LICENSE)
+BAREBOX_2_LICENSE_FILES = $(BAREBOX_LICENSE_FILES)
+BAREBOX_2_POST_PATCH_HOOKS = $(BAREBOX_POST_PATCH_HOOKS)
+BAREBOX_2_INSTALL_IMAGES = YES
+BAREBOX_2_INSTALL_TARGET = NO
+BAREBOX_2_MAKE_FLAGS = $(BAREBOX_MAKE_FLAGS)
+BAREBOX_2_MAKE_ENV = $(BAREBOX_MAKE_ENV)
+
+# Re-use KConfig logic from barebox
+$(eval $(call BAREBOX_KCONFIG,BAREBOX_2))
+
+# Re-use custom env logic from barebox
+$(eval $(call BAREBOX_CUSTOM_ENV,BAREBOX_2))
+
+BAREBOX_2_BUILD_CMDS = $(BAREBOX_BUILD_CMDS)
+BAREBOX_2_INSTALL_IMAGES_CMDS = $(BAREBOX_INSTALL_IMAGES_CMDS)
+
+# Re-use user friendly errors from barebox
+$(eval $(call BAREBOX_USER_FRIENDLY_ERRORS,BAREBOX_2))
+
+$(eval $(kconfig-package))
