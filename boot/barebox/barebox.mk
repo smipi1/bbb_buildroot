@@ -9,26 +9,28 @@
 # support a barebox package
 #
 #  argument 1 is the uppercase package name as used in variable names
+#  argument 2 is the KConfig package variable name-space that defines the
+#             package version, and origin
 ################################################################################
 
 define barebox-package
 
-$(1)_VERSION = $$(call qstrip,$$(BR2_TARGET_BAREBOX_VERSION))
+$(1)_VERSION = $$(call qstrip,$$(BR2_TARGET_$(2)_VERSION))
 
 ifeq ($$($(1)_VERSION),custom)
 # Handle custom Barebox tarballs as specified by the configuration
-$(1)_TARBALL = $$(call qstrip,$$(BR2_TARGET_BAREBOX_CUSTOM_TARBALL_LOCATION))
+$(1)_TARBALL = $$(call qstrip,$$(BR2_TARGET_$(2)_CUSTOM_TARBALL_LOCATION))
 $(1)_SITE = $$(patsubst %/,%,$$(dir $$($(1)_TARBALL)))
 $(1)_SOURCE = $$(notdir $$($(1)_TARBALL))
 BR_NO_CHECK_HASH_FOR += $$($(1)_SOURCE)
-else ifeq ($$(BR2_TARGET_BAREBOX_CUSTOM_GIT),y)
-$(1)_SITE = $$(call qstrip,$$(BR2_TARGET_BAREBOX_CUSTOM_GIT_REPO_URL))
+else ifeq ($$(BR2_TARGET_$(2)_CUSTOM_GIT),y)
+$(1)_SITE = $$(call qstrip,$$(BR2_TARGET_$(2)_CUSTOM_GIT_REPO_URL))
 $(1)_SITE_METHOD = git
 else
 # Handle stable official Barebox versions
 $(1)_SOURCE = barebox-$$($(1)_VERSION).tar.bz2
 $(1)_SITE = http://www.barebox.org/download
-ifeq ($$(BR2_TARGET_BAREBOX_CUSTOM_VERSION),y)
+ifeq ($$(BR2_TARGET_$(2)_CUSTOM_VERSION),y)
 BR_NO_CHECK_HASH_FOR += $$($(1)_SOURCE)
 endif
 endif
@@ -37,10 +39,10 @@ $(1)_DEPENDENCIES = host-lzop
 $(1)_LICENSE = GPLv2 with exceptions
 $(1)_LICENSE_FILES = COPYING
 
-ifneq ($$(call qstrip,$$(BR2_TARGET_BAREBOX_CUSTOM_PATCH_DIR)),)
+ifneq ($$(call qstrip,$$(BR2_TARGET_$(2)_CUSTOM_PATCH_DIR)),)
 define $(1)_APPLY_CUSTOM_PATCHES
 	$$(APPLY_PATCHES) $$(@D) \
-		$$(BR2_TARGET_BAREBOX_CUSTOM_PATCH_DIR) \*.patch
+		$$(BR2_TARGET_$(2)_CUSTOM_PATCH_DIR) \*.patch
 endef
 
 $(1)_POST_PATCH_HOOKS += $(1)_APPLY_CUSTOM_PATCHES
@@ -137,4 +139,4 @@ endif
 $$(eval $$(kconfig-package))
 endef
 
-$(eval $(call barebox-package,BAREBOX))
+$(eval $(call barebox-package,BAREBOX,BAREBOX))
