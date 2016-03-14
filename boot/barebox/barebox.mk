@@ -94,8 +94,14 @@ endef
 define BAREBOX_INSTALL_IMAGES_CMDS
 	if test -e $(@D)/$(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE)); then \
 		cp -L $(@D)/$(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE)) $(BINARIES_DIR)/barebox.bin ; \
-	else \
+	elif test -e $(@D)/images/$(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE)); then \
 		cp $(@D)/images/$(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE)) $(BINARIES_DIR)/barebox.bin ; \
+	else \
+		echo "error: Specified built image file not found: $(call qstrip,$(BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE))" >&2 ; \
+		echo "       in: $(@D)/" >&2 ; \
+		echo "       or: $(@D)/images/" >&2 ; \
+		echo "       Check your BR2_TARGET_BAREBOX_BUILT_IMAGE_FILE setting." >&2 ; \
+		exit 1 ; \
 	fi
 	$(BAREBOX_INSTALL_CUSTOM_ENV)
 endef
