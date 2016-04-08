@@ -144,3 +144,6 @@ barebox-package=$(call inner-barebox-package,$(call UPPERCASE,$(pkgname)))
 
 # instantiate this barebox package
 $(eval $(barebox-package))
+
+# add the 2nd barebox package build
+include boot/barebox/barebox-2/barebox-2.mk
